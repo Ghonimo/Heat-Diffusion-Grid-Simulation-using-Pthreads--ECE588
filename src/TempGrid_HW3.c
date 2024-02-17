@@ -1,4 +1,4 @@
-// To run this code use: cc -lpthread -lrt HW3_updated.c -o HW3_updated1
+// To run this code use: cc -lpthread -lrt TempGrid_HW3.c -o TempGrid_HW3
 // to execute the binary, run ./binary <numthreads>
 
 #define _GNU_SOURCE

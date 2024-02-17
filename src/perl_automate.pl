@@ -4,7 +4,10 @@ use strict;
 use warnings;
 
 # Output file
-my $output_file = 'Ghonim_Nordstrom_output3.txt';
+ my $output_file = '../Output/Ghonim_Nordstrom_output3_(1)_mac_os.txt';
+# my $output_file = '../Output/Ghonim_Nordstrom_output3_(2)_mac_os.txt';
+# my $output_file = '../Output/Ghonim_Nordstrom_output3_(1)_linux.txt';
+# my $output_file = '../Output/Ghonim_Nordstrom_output3_(1)_linux.txt';
 
 # Open the file for writing
 open(my $fh, '>', $output_file) or die "Could not open file '$output_file' $!";
@@ -19,6 +22,7 @@ my $single_thread_time = 0;
 for (my $num_threads = 1; $num_threads <= 16; $num_threads++) {
     # Execute the program and capture its output
     my $output = `./TempGrid_HW3 $num_threads`;
+    #my $output = `./HW3_1 $num_threads`;
 
     # Extract the time from the output
     my ($time_in_seconds) = $output =~ /Time = \d+ nanoseconds\s+\(([\d\.]+) sec\)/;

@@ -1,3 +1,8 @@
+
+// (1)
+// This is the baseline program for this assignment. 
+// It uses iterative loops to copy the temperature values from the old grid to the new grid, and then updates the old grid with the new values.
+
 // To run this code use: cc -lpthread -lrt TempGrid_HW3.c -o TempGrid_HW3
 // to execute the binary, run ./binary <numthreads>
 
@@ -78,7 +83,7 @@ void* Temp(void* tmp) {
 	if (threadId < Remainder)
 		end++;
 	// Call barrier to ensure all threads start at the same time
-	Barrier();
+	// Barrier(); // Commented because this is not really needed and could degrade the performance
 
 	// Nested loop iterating through the portion of the grid assigned to the thread
 	for (block = 1; block <= TIMESTEPS; block++) {	// the outer loop iterates over the timesteps

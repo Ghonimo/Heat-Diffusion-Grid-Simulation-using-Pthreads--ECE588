@@ -1,12 +1,11 @@
+// (3) 
+// This is an exploration of symmerty in the temperature grid.
+// it does half the work and mirrors the results to the other half.
+// this minimizes the computation, but increases the overhead of mirroring the results.
+// It still uses a pointer to swap the old and new grids.
 
-// (2) 
-// This is an enahnced version of the previous code.
-// Instead of using loops to copy the temperature values from the old grid to the new grid, it uses the memcpy function to copy the values.
-// basically a pointer to swap the old and new grids.
-// this is more efficient than using loops to copy the values.
-
-// To run this code use: cc -lpthread -lrt HW3_1.c -o HW3_1
-// to execute the binary, run ./HW3_1.c <numthreads>
+// To run this code use: cc -lpthread -lrt HW3_2.c -o HW3_2
+// to execute the binary, run ./HW3_2.c <numthreads>
 
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -52,17 +51,19 @@ void Barrier() {
     pthread_mutex_unlock(&SyncLock);
 }
 
-
 void* Temp(void* tmp) {
     long int threadId = (long int)tmp;
-    int start = threadId * Count + (threadId < Remainder ? threadId : Remainder);
-    int end = start + Count - 1 + (threadId < Remainder ? 1 : 0);
+    int halfX = X_SIZE / 2; // Calculate only for the left half
+    int start = threadId * (halfX - 1) / NumThreads + (threadId < Remainder ? threadId : Remainder);
+    int end = start + (halfX - 1) / NumThreads - 1 + (threadId < Remainder ? 1 : 0);
 
     for (int block = 1; block <= TIMESTEPS; block++) {
         for (int j = start; j <= end; j++) {
             for (int k = 1; k < Y_SIZE - 1; k++) {
-                if (j > 0 && j < X_SIZE - 1) {
+                if (j > 0 && j < halfX) {
                     new[j][k] = old[j][k] + Cx * (old[j + 1][k] + old[j - 1][k] - 2 * old[j][k]) + Cy * (old[j][k + 1] + old[j][k - 1] - 2 * old[j][k]);
+                    // Mirror the calculated value to the right half
+                    new[X_SIZE - 1 - j][k] = new[j][k];
                 }
             }
         }
@@ -81,6 +82,7 @@ void* Temp(void* tmp) {
     }
     return NULL;
 }
+
 
 int main(int argc, char** argv) {
     if (argc < 2) {

@@ -40,7 +40,11 @@ cc -lpthread -lrt TempGrid_HW3.c -o TempGrid_HW3
 
 To run the compiled binary, specifying the number of threads:
 ```bash
-./HW3_updated <num_threads>
+./bin/HW3_updated <num_threads>
+```
+To run in batch more, comparing the performance of with different cores, you can execute the perl script below:
+```bash
+./automate/batch_run.pl
 ```
 
 ## Output
